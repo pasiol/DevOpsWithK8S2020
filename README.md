@@ -94,4 +94,75 @@ Project repo: [https://github.com/pasiol/django-to-do-app]
 	Starting development server at http://0.0.0.0:8000/
 	Quit the server with CONTROL-C.
 
+#### 1.03 Declarative approach
 
+go-main-app.yaml
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  name: go-main-app
+	spec:
+	  replicas: 1
+	  selector:
+		matchLabels:
+		  app: go-main-app
+	  template:
+		metadata:
+		  labels:
+			app: go-main-app
+		spec:
+		  containers:
+			- name: go-main-app
+			  image: pasiol/go-main-app:latest
+
+cli
+
+	devops@devops:~$ kubectl apply -f go-main-app.yaml 
+	deployment.apps/go-main-app created
+	devops@devops:~$ kubectl get deployments
+	NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+	go-main-app   1/1     1            1           21s
+
+#### Exercise 1.04: Project v0.2
+
+django-to-do-app.yaml
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  name: django-to-do-app
+	spec:
+	  replicas: 1
+	  selector:
+		matchLabels:
+		  app: django-to-do-app
+	  template:
+		metadata:
+		  labels:
+			app: django-to-do-app
+		spec:
+		  containers:
+			- name: django-to-do-app
+			  image: pasiol/django-to-do-app:1.02
+
+
+cli
+
+	kubectl get pods
+	NAME                                READY   STATUS              RESTARTS   AGE
+	go-main-app-78cbb86cd5-nkj2j        1/1     Running             0          7m56s
+	django-to-do-app-5bbb687848-5k26h   0/1     ContainerCreating   0          10s
+	devops@devops:~$ kubectl logs django-to-do-app-5bbb687848-5k26h
+	Error from server (BadRequest): container "django-to-do-app" in pod "django-to-do-app-5bbb687848-5k26h" is waiting to start: ContainerCreating
+	devops@devops:~$ kubectl logs django-to-do-app-5bbb687848-5k26h
+	Performing system checks...
+
+	System check identified no issues (0 silenced).
+
+	You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+	Run 'python manage.py migrate' to apply them.
+	November 01, 2020 - 14:23:49
+	Django version 3.1.2, using settings 'devopsToDoApp.settings'
+	Starting development server at http://0.0.0.0:8000/
+	Quit the server with CONTROL-C.
