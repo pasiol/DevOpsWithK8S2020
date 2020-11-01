@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-to-do-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-to-do-app
+  template:
+    metadata:
+      labels:
+        app: django-to-do-app
+    spec:
+      containers:
+        - name: django-to-do-app
+          image: pasiol/django-to-do-app:1.02
