@@ -51,25 +51,25 @@ Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.9", GitCom
 	docker build ./ -t pasiol/go-main-app:latest
 	docker push pasiol/go-main-app:latest
 	docker image ls | grep go-main-app
-	pasiol/go-main-app                                      latest              a1bd3753f6dc        27 minutes ago      1.79MB
+pasiol/go-main-app                                      latest              a1bd3753f6dc        27 minutes ago      1.79MB
 	
 	docker run pasiol/go-main-app:latest
-	2020-11-01T11:14:36.146902677Z 4469fb90-6751-4387-b332-58f6c2de4808
-	2020-11-01T11:14:41.147231488Z e7395ff0-3a83-4d34-adba-124f8029b4ca
+2020-11-01T11:14:36.146902677Z 4469fb90-6751-4387-b332-58f6c2de4808
+2020-11-01T11:14:41.147231488Z e7395ff0-3a83-4d34-adba-124f8029b4ca
 
 	kubectl create deployment go-main-app --image=pasiol/go-main-app
 	kubectl get deployments
-	NAME          READY   UP-TO-DATE   AVAILABLE   AGE
-	go-main-app   1/1     1            1           96s
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+go-main-app   1/1     1            1           96s
 
 	kubectl get pods
-	NAME                           READY   STATUS    RESTARTS   AGE
-	go-main-app-676c66fbc6-dxd4s   1/1     Running   0          2m59s
+NAME                           READY   STATUS    RESTARTS   AGE
+go-main-app-676c66fbc6-dxd4s   1/1     Running   0          2m59s
 
 	kubectl logs go-main-app-676c66fbc6-dxd4s
-	2020-11-01T11:18:27.635233449Z bccebb61-46cb-4840-a19d-0220b6d37ae5
-	2020-11-01T11:18:32.635950697Z dbe17776-eb8b-4dea-888c-2a5b2225b218
-	2020-11-01T11:18:37.636461087Z bab6611f-1384-4b6f-995c-6f98627b7689
-	2020-11-01T11:18:42.637032246Z ca7022f1-a78f-4bde-b77d-c4bb7acabf73
+2020-11-01T11:18:27.635233449Z bccebb61-46cb-4840-a19d-0220b6d37ae5
+2020-11-01T11:18:32.635950697Z dbe17776-eb8b-4dea-888c-2a5b2225b218
+2020-11-01T11:18:37.636461087Z bab6611f-1384-4b6f-995c-6f98627b7689
+2020-11-01T11:18:42.637032246Z ca7022f1-a78f-4bde-b77d-c4bb7acabf73
 
 	
