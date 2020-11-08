@@ -33,6 +33,10 @@ Installing k3d on the Debian 10 server
 ### k3d
 
 	k3d cluster start
+	k3d cluster delete
+	
+	k3d cluster create --port '8082:30080@agent[0]' -p 8081:80@loadbalancer --agents 2
+
 
 ### kubectl
 
@@ -218,3 +222,66 @@ cli
 	[08/Nov/2020 18:11:13] "GET /todo/static/css/images/image.jpg HTTP/1.1" 304 0
 
 
+### Exercise 1.06: Project 0.4
+
+cli:
+	
+	devops@devops:~$ k3d cluster create --port '8082:30080@agent[0]' -p 8081:80@loadbalancer --agents 2
+	INFO[0000] Created network 'k3d-k3s-default' 
+	...
+	
+	devops@devops:~$ kubectl create deployment djangotodoapp --image=pasiol/django-to-do-app:1.05
+	deployment.apps/django-to-do-app created
+
+project-service.yaml
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: django-to-do-svc
+	spec:
+	  type: NodePort
+	  selector:
+			  app: django-to-do-app 
+	  ports:
+			  - nodePort: 30080
+				protocol: TCP
+				port: 8000
+				targetPort: 8000
+
+cli:
+
+	devops@devops:~$ kubectl apply -f project-service.yaml 
+	service/django-to-do-svc created
+
+	devops@devops:~$ kubectl describe service django-to-do-svc
+	Name:                     django-to-do-svc
+	Namespace:                default
+	Labels:                   <none>
+	Annotations:              Selector:  app=django-to-do-app
+	Type:                     NodePort
+	IP:                       10.43.164.228
+	Port:                     <unset>  8000/TCP
+	TargetPort:               8000/TCP
+	NodePort:                 <unset>  30080/TCP
+	Endpoints:                10.42.1.5:8000
+	Session Affinity:         None
+	External Traffic Policy:  Cluster
+	Events:                   <none>
+
+	devops@devops:~$ kubectl logs django-to-do-app-59d6bccb6f-c5xts
+	Performing system checks...
+
+	System check identified no issues (0 silenced).
+	November 08, 2020 - 19:37:23
+	Django version 3.1.2, using settings 'devopsToDoApp.settings'
+	Starting development server at http://0.0.0.0:8000/
+	Quit the server with CONTROL-C.
+	[08/Nov/2020 19:52:37] "GET /todo/ HTTP/1.1" 200 995
+	[08/Nov/2020 19:52:37] "GET /todo/static/css/style.css HTTP/1.1" 200 443
+	Not Found: /favicon.ico
+	[08/Nov/2020 19:52:37] "GET /favicon.ico HTTP/1.1" 404 2316
+	[08/Nov/2020 19:52:37] "GET /todo/static/css/images/image.jpg HTTP/1.1" 200 76076
+
+
+	
