@@ -1,6 +1,6 @@
 ## Part 0
 
-Installing k3d Debian 10 server
+Installing k3d on the Debian 10 server
 	
 [https://github.com/rancher/k3d]
 
@@ -21,14 +21,18 @@ Installing k3d Debian 10 server
 
 ### Installing kubectl
 
-- [https://kubernetes.io/docs/tasks/tools/install-kubectl/]
+[https://kubernetes.io/docs/tasks/tools/install-kubectl/]
 
 	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.9/bin/linux/amd64/kubectl
 	chmod +x ./kubectl
 	sudo mv ./kubectl /usr/local/bin/kubectl
 	kubectl version --client
 
-Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.9", GitCommit:"94f372e501c973a7fa9eb40ec9ebd2fe7ca69848", GitTreeState:"clean", BuildDate:"2020-09-16T13:56:40Z", GoVersion:"go1.13.15", Compiler:"gc", Platform:"linux/amd64"}
+	Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.9", GitCommit:"94f372e501c973a7fa9eb40ec9ebd2fe7ca69848", GitTreeState:"clean", BuildDate:"2020-09-16T13:56:40Z", GoVersion:"go1.13.15", Compiler:"gc", Platform:"linux/amd64"}
+
+### k3d
+
+	k3d cluster start
 
 ### kubectl
 
@@ -41,6 +45,22 @@ Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.9", GitCom
 	kubectl get pods
 
 	kubectl logs POD_NAME
+	
+	kubectl describe TYPE NAME
+	
+Copying secrets between namespaces
+	
+	kubectl get secret NAME --namespace NAME --export -o yaml | kubectl apply --namespace=NAME -f -
+
+### lens
+
+[https://k8slens.dev/]
+
+	kubectl config view --minify --raw
+
+	sudo snap install kontena-lens --classic
+
+
 
 ### Exercises
 
@@ -166,3 +186,35 @@ cli
 	Django version 3.1.2, using settings 'devopsToDoApp.settings'
 	Starting development server at http://0.0.0.0:8000/
 	Quit the server with CONTROL-C.
+	
+#### Exercise 1.05: Project 0.3
+
+cli
+
+	devops@devops:~$ kubectl delete deployment django-to-do-app
+	deployment.apps "django-to-do-app" deleted
+	devops@devops:~$ kubectl create deployment django-to-do-app --image=pasiol/django-to-do-app:1.05
+	deployment.apps/django-to-do-app created
+	devops@devops:~$ kubectl get pods
+	NAME                                READY   STATUS              RESTARTS   AGE
+	go-main-app-78cbb86cd5-nkj2j        1/1     Running             4          7d1h
+	django-to-do-app-59d6bccb6f-d8n9l   0/1     ContainerCreating   0          7s
+	devops@devops:~$ kubectl port-forward django-to-do-app-59d6bccb6f-d8n9l 8000:8000
+	Forwarding from 127.0.0.1:8000 -> 8000
+	Forwarding from [::1]:8000 -> 8000
+
+![Screeshot](images/105.png)
+
+	devops@devops:~$ kubectl logs django-to-do-app-59d6bccb6f-d8n9l
+	Performing system checks...
+
+	System check identified no issues (0 silenced).
+	November 08, 2020 - 18:10:09
+	Django version 3.1.2, using settings 'devopsToDoApp.settings'
+	Starting development server at http://0.0.0.0:8000/
+	Quit the server with CONTROL-C.
+	[08/Nov/2020 18:11:12] "GET /todo/ HTTP/1.1" 200 995
+	[08/Nov/2020 18:11:12] "GET /todo/static/css/style.css HTTP/1.1" 200 443
+	[08/Nov/2020 18:11:13] "GET /todo/static/css/images/image.jpg HTTP/1.1" 304 0
+
+
