@@ -64,6 +64,13 @@ Copying secrets between namespaces
 
 	sudo snap install kontena-lens --classic
 
+### Services
+
+[https://kubernetes.io/docs/concepts/services-networking/service/]
+
+### ingress
+
+[https://en.wikipedia.org/wiki/OSI_model]
 
 
 ### Exercises
