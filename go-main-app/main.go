@@ -13,7 +13,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	localTime := time.Now()
 	fmt.Printf("%v %s\n", localTime.UTC().Format(time.RFC3339Nano), uuid.String())
 	fmt.Fprintf(w,"%s %s", localTime.UTC().Format(time.RFC3339Nano), uuid.String())
-
 }
 
 func main() {
@@ -23,5 +22,3 @@ func main() {
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(port, nil))
 }
-
-

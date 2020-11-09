@@ -290,5 +290,66 @@ cli:
 	[08/Nov/2020 19:52:37] "GET /favicon.ico HTTP/1.1" 404 2316
 	[08/Nov/2020 19:52:37] "GET /todo/static/css/images/image.jpg HTTP/1.1" 200 76076
 
+### Exercise 1.07: External access with Ingress
 
-	
+cli:
+
+	devops@devops:~$ kubectl create deployment go-main-app --image=pasiol/go-main-app:1.07
+	deployment.apps/go-main-app created
+	devops@devops:~$ kubectl get deployments
+	NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+	django-to-do-app   1/1     1            1           25h
+	go-main-app        0/1     1            0           5s
+	devops@devops:~$ kubectl get pods
+	NAME                                READY   STATUS    RESTARTS   AGE
+	django-to-do-app-59d6bccb6f-c5xts   1/1     Running   0          25h
+	go-main-app-ff58ccbc8-2zdqw         1/1     Running   0          46s
+	devops@devops:~$ kubectl logs go-main-app-ff58ccbc8-2zdqw
+	2020/11/09 18:39:40 Web server main application starting at port 0.0.0.0:3000.
+
+
+service-go-main-app.yaml:
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: go-main-app-svc
+	spec:
+	  type: ClusterIP
+	  selector:
+		app: go-main-app
+	  ports:
+		- port: 3333
+		  protocol: TCP
+		  targetPort: 3000
+
+cli:
+
+	devops@devops:~$ kubectl apply -f service-go-main-app.yaml 
+	service/go-main-app-svc created
+
+
+gma-ingress.yaml
+
+	apiVersion: extensions/v1beta1
+	kind: Ingress
+	metadata:
+	  name: go-main-app-ingress
+	spec:
+	  rules:
+	  - http:
+		  paths:
+		  - path: /
+			backend:
+			  serviceName: go-main-app-svc
+			  servicePort: 3333
+
+cli:
+
+	devops@devops:~$ kubectl apply -f gma-ingress.yaml 
+	ingress.extensions/go-main-app-ingress created
+	devops@devops:~$ kubectl get ingress
+	NAME                  CLASS    HOSTS   ADDRESS      PORTS   AGE
+	go-main-app-ingress   <none>   *       172.18.0.2   80      5s
+
+![Screeshot](images/105.png)
