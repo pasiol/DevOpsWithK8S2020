@@ -352,4 +352,4 @@ cli:
 	NAME                  CLASS    HOSTS   ADDRESS      PORTS   AGE
 	go-main-app-ingress   <none>   *       172.18.0.2   80      5s
 
-![Screeshot](images/105.png)
+![Screeshot](images/107.png)
