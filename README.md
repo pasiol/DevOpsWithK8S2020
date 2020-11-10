@@ -334,7 +334,9 @@ cli:
 
 ![Screeshot](images/not_allowed.png)
 
+Problem: Ingress IP address is not known before deployment. Solution: Create secret where Ingress IP is saved on.
 The configuration is not a problem in the production environment. Access could be defined as DNS-names instead of IP addresses.
+ 
 
 [https://github.com/pasiol/django-to-do-app/blob/main/service-project-1.08.yaml]
 
