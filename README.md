@@ -33,7 +33,8 @@ Installing k3d on the Debian 10 server
 ### k3d
 
 	k3d cluster start
-	k3d cluster delete
+	k3d cluster stop
+	k3d cluster delete name
 	
 	k3d cluster create --port '8082:30080@agent[0]' -p 8081:80@loadbalancer --agents 2
 
@@ -109,11 +110,11 @@ Project repo: [https://github.com/pasiol/django-to-do-app]
 
 	kubectl create deployment django-to-do-app --image=pasiol/django-to-do-app:1.02
 
-	devops@devops:~$ kubectl get pods
+	kubectl get pods
 	NAME                                READY   STATUS              RESTARTS   AGE
 	go-main-app-676c66fbc6-dxd4s        1/1     Running             0          98m
 	django-to-do-app-5bbb687848-45kh6   0/1     ContainerCreating   0          52s
-	devops@devops:~$ kubectl logs django-to-do-app-5bbb687848-45kh6
+	kubectl logs django-to-do-app-5bbb687848-45kh6
 	Performing system checks...
 
 	System check identified no issues (0 silenced).
@@ -149,9 +150,9 @@ go-main-app.yaml
 
 cli
 
-	devops@devops:~$ kubectl apply -f go-main-app.yaml 
+	kubectl apply -f go-main-app.yaml 
 	deployment.apps/go-main-app created
-	devops@devops:~$ kubectl get deployments
+	kubectl get deployments
 	NAME          READY   UP-TO-DATE   AVAILABLE   AGE
 	go-main-app   1/1     1            1           21s
 
@@ -184,9 +185,9 @@ cli
 	NAME                                READY   STATUS              RESTARTS   AGE
 	go-main-app-78cbb86cd5-nkj2j        1/1     Running             0          7m56s
 	django-to-do-app-5bbb687848-5k26h   0/1     ContainerCreating   0          10s
-	devops@devops:~$ kubectl logs django-to-do-app-5bbb687848-5k26h
+	kubectl logs django-to-do-app-5bbb687848-5k26h
 	Error from server (BadRequest): container "django-to-do-app" in pod "django-to-do-app-5bbb687848-5k26h" is waiting to start: ContainerCreating
-	devops@devops:~$ kubectl logs django-to-do-app-5bbb687848-5k26h
+	kubectl logs django-to-do-app-5bbb687848-5k26h
 	Performing system checks...
 
 	System check identified no issues (0 silenced).
@@ -202,21 +203,21 @@ cli
 
 cli
 
-	devops@devops:~$ kubectl delete deployment django-to-do-app
+	kubectl delete deployment django-to-do-app
 	deployment.apps "django-to-do-app" deleted
-	devops@devops:~$ kubectl create deployment django-to-do-app --image=pasiol/django-to-do-app:1.05
+	kubectl create deployment django-to-do-app --image=pasiol/django-to-do-app:1.05
 	deployment.apps/django-to-do-app created
-	devops@devops:~$ kubectl get pods
+	kubectl get pods
 	NAME                                READY   STATUS              RESTARTS   AGE
 	go-main-app-78cbb86cd5-nkj2j        1/1     Running             4          7d1h
 	django-to-do-app-59d6bccb6f-d8n9l   0/1     ContainerCreating   0          7s
-	devops@devops:~$ kubectl port-forward django-to-do-app-59d6bccb6f-d8n9l 8000:8000
+	kubectl port-forward django-to-do-app-59d6bccb6f-d8n9l 8000:8000
 	Forwarding from 127.0.0.1:8000 -> 8000
 	Forwarding from [::1]:8000 -> 8000
 
 ![Screeshot](images/105.png)
 
-	devops@devops:~$ kubectl logs django-to-do-app-59d6bccb6f-d8n9l
+	kubectl logs django-to-do-app-59d6bccb6f-d8n9l
 	Performing system checks...
 
 	System check identified no issues (0 silenced).
@@ -233,11 +234,11 @@ cli
 
 cli:
 	
-	devops@devops:~$ k3d cluster create --port '8082:30080@agent[0]' -p 8081:80@loadbalancer --agents 2
+	k3d cluster create --port '8082:30080@agent[0]' -p 8081:80@loadbalancer --agents 2
 	INFO[0000] Created network 'k3d-k3s-default' 
 	...
 	
-	devops@devops:~$ kubectl create deployment djangotodoapp --image=pasiol/django-to-do-app:1.05
+	kubectl create deployment django-to-do-app --image=pasiol/django-to-do-app:1.05
 	deployment.apps/django-to-do-app created
 
 project-service.yaml
@@ -253,15 +254,15 @@ project-service.yaml
 	  ports:
 			  - nodePort: 30080
 				protocol: TCP
-				port: 8000
+				port: 8001
 				targetPort: 8000
 
 cli:
 
-	devops@devops:~$ kubectl apply -f project-service.yaml 
+	kubectl apply -f project-service.yaml 
 	service/django-to-do-svc created
 
-	devops@devops:~$ kubectl describe service django-to-do-svc
+	kubectl describe service django-to-do-svc
 	Name:                     django-to-do-svc
 	Namespace:                default
 	Labels:                   <none>
@@ -276,7 +277,7 @@ cli:
 	External Traffic Policy:  Cluster
 	Events:                   <none>
 
-	devops@devops:~$ kubectl logs django-to-do-app-59d6bccb6f-c5xts
+	kubectl logs django-to-do-app-59d6bccb6f-c5xts
 	Performing system checks...
 
 	System check identified no issues (0 silenced).
@@ -294,67 +295,72 @@ cli:
 
 cli:
 
-	devops@devops:~$ kubectl create deployment go-main-app --image=pasiol/go-main-app:1.07
+	kubectl create deployment go-main-app --image=pasiol/go-main-app:1.07
 	deployment.apps/go-main-app created
-	devops@devops:~$ kubectl get deployments
+	kubectl get deployments
 	NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 	django-to-do-app   1/1     1            1           25h
 	go-main-app        0/1     1            0           5s
-	devops@devops:~$ kubectl get pods
+	kubectl get pods
 	NAME                                READY   STATUS    RESTARTS   AGE
 	django-to-do-app-59d6bccb6f-c5xts   1/1     Running   0          25h
 	go-main-app-ff58ccbc8-2zdqw         1/1     Running   0          46s
-	devops@devops:~$ kubectl logs go-main-app-ff58ccbc8-2zdqw
+	kubectl logs go-main-app-ff58ccbc8-2zdqw
 	2020/11/09 18:39:40 Web server main application starting at port 0.0.0.0:3000.
 
-
-service-go-main-app.yaml:
-
-	apiVersion: v1
-	kind: Service
-	metadata:
-	  name: go-main-app-svc
-	spec:
-	  type: ClusterIP
-	  selector:
-		app: go-main-app
-	  ports:
-		- port: 3333
-		  protocol: TCP
-		  targetPort: 3000
+[./go-main-app/service-go-main-app.yaml](./go-main-app/service-go-main-app.yaml)
 
 cli:
 
-	devops@devops:~$ kubectl apply -f service-go-main-app.yaml 
+	kubectl apply -f service-go-main-app.yaml 
 	service/go-main-app-svc created
 
 
-gma-ingress.yaml
-
-	apiVersion: extensions/v1beta1
-	kind: Ingress
-	metadata:
-	  name: go-main-app-ingress
-	spec:
-	  rules:
-	  - http:
-		  paths:
-		  - path: /
-			backend:
-			  serviceName: go-main-app-svc
-			  servicePort: 3333
+[./go-main-app/gma-ingress.yaml](./go-main-app/gma-ingress.yaml)
 
 cli:
 
-	devops@devops:~$ kubectl apply -f gma-ingress.yaml 
+	kubectl apply -f gma-ingress.yaml 
 	ingress.extensions/go-main-app-ingress created
-	devops@devops:~$ kubectl get ingress
+	kubectl get ingress
 	NAME                  CLASS    HOSTS   ADDRESS      PORTS   AGE
 	go-main-app-ingress   <none>   *       172.18.0.2   80      5s
 
 ![Screeshot](images/107.png)
 
 ### Exercise 1.08
+
+[https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts]
+
+![Screeshot](images/not_allowed.png)
+
+The configuration is not a problem in the production environment. Access could be defined as DNS-names instead of IP addresses.
+
+[https://github.com/pasiol/django-to-do-app/blob/main/service-project-1.08.yaml]
+
+	kubectl apply -f project-service-1.08.yaml 
+	service/django-to-do-svc created
+
+[https://github.com/pasiol/django-to-do-app/blob/main/ingress-1.08.yaml]
+
+	kubectl apply -f ingress-1.08.yaml 
+	ingress.extensions/project-ingress created
+	kubectl get ingress project-ingress
+	NAME              CLASS    HOSTS   ADDRESS      PORTS   AGE
+	project-ingress   <none>   *       172.21.0.3   80      23s
+
+[https://github.com/pasiol/django-to-do-app/blob/main/ingress-secret-1.08.yaml]
+
+	kubectl apply -f ingress-secret.1.08.yaml 
+	secret/project-secrets created
+
+[https://github.com/pasiol/django-to-do-app/blob/main/project-deployment-1.08.yaml]
+
+	kubectl apply -f project-deployment1.08.yaml 
+	deployment.apps/django-to-do-app created
+
+![Screeshot](images/108.png)
+
 
 ### Exercise 1.09 
 
@@ -365,42 +371,28 @@ cli:
 
 	kubectl create deployment go-pingpong --image=pasiol/go-pingpong:1.09
 
-service-go-pingpong.yaml:
+[https://github.com/pasiol/DevOpsWithK8S2020/blob/main/go-pingpong/service-go-pingpong.yaml]
 
-	apiVersion: v1
-	kind: Service
-	metadata:
-	  name: go-pingpong-svc
-	spec:
-	  type: ClusterIP
-	  selector:
-		app: go-pingpong
-	  ports:
-		- port: 3334
-		  protocol: TCP
-		  targetPort: 3001
 
 cli:
 
 	kubectl apply -f service-go-pingpong.yaml
+	kubectl get services
+	NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+	kubernetes        ClusterIP   10.43.0.1       <none>        443/TCP    5m30s
+	go-main-app-svc   ClusterIP   10.43.211.255   <none>        3333/TCP   4m4s
+	go-pingpong-svc   ClusterIP   10.43.194.127   <none>        3334/TCP   20s
 
+[https://github.com/pasiol/DevOpsWithK8S2020/blob/main/go-pingpong/ingress-1.09.yaml]
 
+	kubectl delete ingress ingress-109
+	ingress.extensions "ingress-109" deleted
+	rm ingress-1.09.yaml
+	nano ingress-1.09.yaml
+	kubectl apply -f ingress-1.09.yaml 
+	ingress.extensions/ingress-109 created
+	kubectl get ingress ingress-109
+	NAME          CLASS    HOSTS   ADDRESS      PORTS   AGE
+	ingress-109   <none>   *       172.22.0.2   80      7s
 
-ingress-1.09.yaml
-
-	apiVersion: extensions/v1beta1
-	kind: Ingress
-	metadata:
-		name: go-main-app-ingress
-	spec:
-		rules:
-		- http:
-			paths:
-			- path: /
-			backend:
-				serviceName: go-main-app-svc
-				servicePort: 3333
-			- path: /pingpong
-			backend:
-				serviceName: go-pingpong-svc
-				servicePort: 3334
+![Screeshot](images/109.png)

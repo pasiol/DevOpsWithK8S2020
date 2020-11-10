@@ -1,15 +1,18 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: go-main-app-ingress
+  name: ingress-109
 spec:
   rules:
-    - http:
-        paths:
-          backend:
-          - path: /  
-            serviceName: go-main-app-svc
-            servicePort: 3333
-          - path: /pingpong
-            serviceName: go-pingpong-svc
-            servicePort: 3334
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: go-main-app-svc
+          servicePort: 3333
+      - path: /pingpong
+        pathType: Prefix
+        backend:
+          serviceName: go-pingpong-svc
+          servicePort: 3334
