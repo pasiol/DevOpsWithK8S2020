@@ -353,3 +353,8 @@ cli:
 	go-main-app-ingress   <none>   *       172.18.0.2   80      5s
 
 ![Screeshot](images/107.png)
+
+
+### Exercise 1.09 
+
+[https://stackoverflow.com/questions/55822679/how-to-implement-multiple-service-in-one-ingress-controllerone-they-gave-in-doc]
