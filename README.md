@@ -354,7 +354,53 @@ cli:
 
 ![Screeshot](images/107.png)
 
+### Exercise 1.08
 
 ### Exercise 1.09 
 
+[https://kubernetes.io/docs/concepts/services-networking/ingress/]
 [https://stackoverflow.com/questions/55822679/how-to-implement-multiple-service-in-one-ingress-controllerone-they-gave-in-doc]
+
+cli:
+
+	kubectl create deployment go-pingpong --image=pasiol/go-pingpong:1.09
+
+service-go-pingpong.yaml:
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: go-pingpong-svc
+	spec:
+	  type: ClusterIP
+	  selector:
+		app: go-pingpong
+	  ports:
+		- port: 3334
+		  protocol: TCP
+		  targetPort: 3001
+
+cli:
+
+	kubectl apply -f service-go-pingpong.yaml
+
+
+
+ingress-1.09.yaml
+
+	apiVersion: extensions/v1beta1
+	kind: Ingress
+	metadata:
+		name: go-main-app-ingress
+	spec:
+		rules:
+		- http:
+			paths:
+			- path: /
+			backend:
+				serviceName: go-main-app-svc
+				servicePort: 3333
+			- path: /pingpong
+			backend:
+				serviceName: go-pingpong-svc
+				servicePort: 3334

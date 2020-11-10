@@ -9,6 +9,8 @@ import (
 
 var counter = 0
 
+// APP_PORT=3001 go run main.go
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	counter++
 	fmt.Fprintf(w, "pong %d", counter)

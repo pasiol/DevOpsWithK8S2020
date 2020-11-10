@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: go-main-app-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          backend:
+          - path: /  
+            serviceName: go-main-app-svc
+            servicePort: 3333
+          - path: /pingpong
+            serviceName: go-pingpong-svc
+            servicePort: 3334
