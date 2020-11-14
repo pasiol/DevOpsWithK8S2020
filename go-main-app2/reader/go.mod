@@ -1,5 +1,5 @@
-module go-main-app-writer
+module go-main-app-reader
 
-go 1.15
+go 1.13
 
 require github.com/google/uuid v1.1.2
