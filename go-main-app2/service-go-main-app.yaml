@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-main-app-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: go-main-app
+    ports:
+    - port: 3333
+      protocol: TCP
+      targetPort: 3000
