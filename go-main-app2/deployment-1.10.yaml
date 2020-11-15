@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: images-110
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: images-110
+  template:
+    metadata:
+      labels:
+        app: images-110
+    spec:
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+        - name: shared-logs
+          emptyDir: {}
+      containers:
+        - name: reader
+          image: pasiol/go-main-app2-reader:1.10.04
+          volumeMounts:
+          - name: shared-data
+            mountPath: /var/app/data
+          - name: shared-logs
+            mountPath: /var/app/logs
+          env:
+            - name: APP_LOG_FILE
+              value: "./logs/reader.log"
+            - name: APP_INPUT_FILE
+              value: "./data/uuids.txt"
+            - name: APP_PORT
+              value: "3000"
+        - name: writer
+          image: pasiol/go-main-app2-writer:1.10.04
+          volumeMounts:
+          - name: shared-data
+            mountPath: /var/app/data
+          - name: shared-logs
+            mountPath: /var/app/logs
+          env:
+            - name: APP_LOG_FILE
+              value: "./logs/writer.log"
+            - name: APP_OUPUT_FILE
+              value: "./data/uuids.txt"

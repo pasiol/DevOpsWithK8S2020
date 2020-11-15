@@ -387,10 +387,6 @@ cli:
 
 [https://github.com/pasiol/DevOpsWithK8S2020/blob/main/go-pingpong/ingress-1.09.yaml]
 
-	kubectl delete ingress ingress-109
-	ingress.extensions "ingress-109" deleted
-	rm ingress-1.09.yaml
-	nano ingress-1.09.yaml
 	kubectl apply -f ingress-1.09.yaml 
 	ingress.extensions/ingress-109 created
 	kubectl get ingress ingress-109
@@ -398,3 +394,9 @@ cli:
 	ingress-109   <none>   *       172.22.0.2   80      7s
 
 ![Screeshot](images/109.png)
+
+Exercise 1.10
+
+[https://github.com/phzfi/scratch-debug]
+
+[https://kubernetes.io/docs/concepts/storage/volumes/#emptydir]
