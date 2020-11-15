@@ -400,3 +400,18 @@ Exercise 1.10
 [https://github.com/phzfi/scratch-debug]
 
 [https://kubernetes.io/docs/concepts/storage/volumes/#emptydir]
+
+cli:
+
+	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/go-main-app2/deployment-1.10.yaml
+
+	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/go-main-app2/service-1.10.yaml
+
+	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/go-main-app2/ingress-1.10.yaml 
+	ingress.extensions/ingress-110 created
+	kubectl get ingress ingress-110
+	NAME          CLASS    HOSTS   ADDRESS      PORTS   AGE
+	ingress-110   <none>   *       172.19.0.2   80      37s
+
+
+![Screeshot](images/110.png)
