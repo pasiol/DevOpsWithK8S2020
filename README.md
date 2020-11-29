@@ -434,4 +434,10 @@ cli:
 
 	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/ingress.yaml
 
+	kubectl get ingresses
+	NAME          CLASS    HOSTS   ADDRESS      PORTS   AGE
+	ingress-111   <none>   *       172.26.0.2   80      55s
+
 ![Screeshot](images/111.png)
+
+### Exercise 1.12: Project v0.6
