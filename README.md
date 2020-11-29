@@ -433,3 +433,5 @@ cli:
 	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/service.pingpong.yaml
 
 	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/ingress.yaml
+
+![Screeshot](images/111.png)
