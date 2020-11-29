@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-111
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: exercise-111-main-svc
+          servicePort: 3030
+      - path: /pingpong
+        backend:
+          serviceName: exercise-111-pingpong-svc
+          servicePort: 3031

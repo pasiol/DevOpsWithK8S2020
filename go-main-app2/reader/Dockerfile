@@ -23,13 +23,14 @@ FROM dev as build
 RUN (([ ! -d "${APP_PATH}/vendor" ] && go mod download && go mod vendor) || true)
 RUN go build -ldflags="-s -w" -mod vendor -o ${APP_BUILD_NAME} main.go
 RUN chmod +x ${APP_BUILD_NAME}
+RUN mkdir pvc
 
 FROM scratch AS prod
 
 ENV APP_BUILD_PATH="/var/app" \
     APP_BUILD_NAME="main" \
-    APP_LOG_FILE="/var/app/logs/reader.log" \
-    APP_OUTPUT_FILE="/var/app/data/uuids.txt" 
+    APP_LOG_FILE="/var/app/pvc/reader.log" \
+    APP_OUTPUT_FILE="/var/app/pvc/uuids.txt" 
 WORKDIR ${APP_BUILD_PATH}
 COPY --from=build ${APP_BUILD_PATH}/${APP_BUILD_NAME} ${APP_BUILD_PATH}/
 

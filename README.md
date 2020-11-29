@@ -395,7 +395,7 @@ cli:
 
 ![Screeshot](images/109.png)
 
-Exercise 1.10
+### Exercise 1.10: Even more services
 
 [https://github.com/phzfi/scratch-debug]
 
@@ -407,7 +407,7 @@ cli:
 
 	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/go-main-app2/service-1.10.yaml
 
-	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/go-main-app2/ingress-1.10.yaml 
+	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/go-main-app2/ingress-1.10.yaml
 	ingress.extensions/ingress-110 created
 	kubectl get ingress ingress-110
 	NAME          CLASS    HOSTS   ADDRESS      PORTS   AGE
@@ -415,3 +415,7 @@ cli:
 
 
 ![Screeshot](images/110.png)
+
+### Exercise 1.11: Persisting data
+
+	docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube

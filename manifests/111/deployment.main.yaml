@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exercise-main-111
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exercise-main-111
+  template:
+    metadata:
+      labels:
+        app: exercise-main-111
+    spec:
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: exercise-111-claim
+      containers:
+        - name: reader
+          image: pasiol/go-main-app2-reader:1.11
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-data
+            mountPath: /var/app/pvc
+          env:
+            - name: APP_LOG_FILE
+              value: "/var/app/pvc/reader.log"
+            - name: APP_INPUT_FILE
+              value: "/var/app/pvc/uuids.txt"
+            - name: APP_INPUT_FILE2
+              value: "/var/app/pvc/pingpong.txt"
+            - name: APP_PORT
+              value: "3000"
+        - name: writer
+          image: pasiol/go-main-app2-writer:1.11
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-data
+            mountPath: /var/app/pvc
+          env:
+            - name: APP_LOG_FILE
+              value: "/var/app/pvc/writer.log"
+            - name: APP_OUPUT_FILE
+              value: "/var/app/pvc/uuids.txt"

@@ -26,10 +26,10 @@ FROM scratch AS prod
 
 ENV APP_BUILD_PATH="/var/app" \
     APP_BUILD_NAME="main" \
-    APP_LOG_FILE="/var/app/logs/writer.log" \
-    APP_OUTPUT_FILE="/var/app/data/uuids.txt" 
+    APP_LOG_FILE="/var/app/pvc/writer.log" \
+    APP_OUTPUT_FILE="/var/app/pvc/uuids.txt" 
 WORKDIR ${APP_BUILD_PATH}
-#RUN mkdir logs data
+
 COPY --from=build ${APP_BUILD_PATH}/${APP_BUILD_NAME} ${APP_BUILD_PATH}/
 
 ENTRYPOINT ["/var/app/main"]

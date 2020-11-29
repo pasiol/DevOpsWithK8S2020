@@ -34,7 +34,7 @@ func fileExists(filename string) bool {
 	return !info.IsDir()
 }
 
-func readLines(filename string) string {
+func readUUIDs(filename string) string {
 	f, err := os.Open(os.Getenv("APP_INPUT_FILE"))
 	if err != nil {
 		log.Fatalf("Opening file %s failed: %s", os.Getenv("APP_INPUT_FILE"), err)
@@ -43,21 +43,44 @@ func readLines(filename string) string {
 	content := ""
 	for scanner.Scan() {
 		line := scanner.Text()
-		content = content + line + "\n"
+		content = line + "\n"
 	}
 	log.Printf("Readed file %s", os.Getenv("APP_INPUT_FILE"))
 	return content
 }
 
+func readPingPong(filename string) string {
+	f, err := os.Open(os.Getenv("APP_INPUT_FILE2"))
+	if err != nil {
+		log.Fatalf("Opening file %s failed: %s", os.Getenv("APP_INPUT_FILE2"), err)
+	}
+	scanner := bufio.NewScanner(f)
+	content := ""
+	for scanner.Scan() {
+		line := scanner.Text()
+		content = line + "\n"
+	}
+	log.Printf("Readed file %s", os.Getenv("APP_INPUT_FILE2"))
+	return content
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
-	lines := ""
+	uuids := ""
+	pingpong := ""
 	if fileExists(os.Getenv("APP_INPUT_FILE")) {
-		lines = readLines(os.Getenv("APP_INPUT_FILE"))
+		uuids = readUUIDs(os.Getenv("APP_INPUT_FILE"))
 	} else {
 		log.Printf("Cannot find input file: %s", os.Getenv("APP_INPUT_FILE"))
 	}
-	fmt.Fprintf(w, "%s", lines)
+	if fileExists(os.Getenv("APP_INPUT_FILE2")) {
+		pingpong = readPingPong(os.Getenv("APP_INPUT_FILE2"))
+	} else {
+		log.Printf("Cannot find input file: %s", os.Getenv("APP_INPUT_FILE2"))
+	}
+	fmt.Fprintf(w, "%s%s", uuids, pingpong)
 }
+
+// APP_LOG_FILE=reader.log APP_INPUT_FILE=test.txt APP_INPUT_FILE2=../../go-pingpong/pingpong.txt APP_PORT=3001 go run main.go
 
 func main() {
 	start := time.Now()

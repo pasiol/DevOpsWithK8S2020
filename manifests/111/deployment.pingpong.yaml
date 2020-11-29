@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exercise-pingpong-111
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exercise-pingpong-111
+  template:
+    metadata:
+      labels:
+        app: exercise-pingpong-111
+    spec:
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: exercise-111-claim
+      containers:
+        - name: pingpong
+          image: pasiol/go-pingpong:1.11
+          volumeMounts:
+          - name: shared-data
+            mountPath: /var/app/pvc
+          env:
+            - name: APP_LOG_FILE
+              value: "/var/app/pvc/pingpong.log"
+            - name: APP_OUPUT_FILE
+              value: "/var/app/pvc/pingpong.txt"
+            - name: APP_PORT
+              value: "3001"

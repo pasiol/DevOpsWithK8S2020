@@ -29,7 +29,9 @@ FROM scratch AS prod
 
 ENV APP_BUILD_PATH="/var/app" \
     APP_BUILD_NAME="main" \
-    APP_PORT=3001
+    APP_PORT=3001 \
+    APP_LOG_FILE="/var/app/pvc/pingpong.log" \
+    APP_OUTPUT_FILE="/var/app/pvc/pingpong.txt"
 WORKDIR ${APP_BUILD_PATH}
 COPY --from=build ${APP_BUILD_PATH}/${APP_BUILD_NAME} ${APP_BUILD_PATH}/
 
