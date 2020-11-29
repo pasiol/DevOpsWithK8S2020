@@ -419,3 +419,17 @@ cli:
 ### Exercise 1.11: Persisting data
 
 	docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
+
+	kubectl apply -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/persistentVolume.yaml
+
+	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/persistentVolumeClaim.yaml
+
+	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/deployment.main.yaml
+
+	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/deployment.pingpong.yaml
+
+	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/service.main.yaml
+
+	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/service.pingpong.yaml
+
+	kubectl -f https://raw.githubusercontent.com/pasiol/DevOpsWithK8S2020/main/manifests/111/ingress.yaml
