@@ -452,14 +452,14 @@ cli:
 	NAME              CLASS    HOSTS   ADDRESS      PORTS   AGE
 	project-ingress   <none>   *       172.18.0.3   80      106s
 
+	kubectl apply -f ingress-secret-1.12.yaml
+
 	kubectl apply -f project-deployment-1.12.yaml
 
 	kubectl get pods
 	NAME                               READY   STATUS    RESTARTS   AGE
 	django-to-do-app-7d7c6c98b-n6tmd   1/1     Running   0          76s
-
-	kubectl apply -f ingress-secret-1.12.yaml
-
+	
 	kubectl logs django-to-do-app-7d7c6c98b-n6tmd -c django-to-do-app
 	Starting to import photo.
 	Time difference: 0:13:10.237728
