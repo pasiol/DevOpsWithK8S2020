@@ -441,3 +441,45 @@ cli:
 ![Screeshot](images/111.png)
 
 ### Exercise 1.12: Project v0.6
+
+[https://github.com/pasiol/DevOpsWithK8S2020/tree/main/manifests/112]
+
+	kubectl apply -f service-project-1.12.yaml
+
+	kubectl apply -f ingress-1.12.yaml 
+	ingress.extensions/project-ingress created
+	devops@devops:~/manifests$ kubectl get ingress project-ingress
+	NAME              CLASS    HOSTS   ADDRESS      PORTS   AGE
+	project-ingress   <none>   *       172.18.0.3   80      106s
+
+	kubectl apply -f project-deployment-1.12.yaml
+
+	kubectl get pods
+	NAME                               READY   STATUS    RESTARTS   AGE
+	django-to-do-app-7d7c6c98b-n6tmd   1/1     Running   0          76s
+
+	kubectl apply -f ingress-secret-1.12.yaml
+
+	kubectl logs django-to-do-app-7d7c6c98b-n6tmd -c django-to-do-app
+	Starting to import photo.
+	Time difference: 0:13:10.237728
+	Photo is updated within 12 hours.
+	Performing system checks...
+
+	System check identified no issues (0 silenced).
+	December 06, 2020 - 19:40:10
+	Django version 3.1.4, using settings 'devopsToDoApp.settings'
+	Starting development server at http://0.0.0.0:8000/
+	Quit the server with CONTROL-C.
+	"GET /todo/ HTTP/1.1" 200 1228
+	"GET /todo/static/css/style.css HTTP/1.1" 200 599
+	"GET /todo/static/images/start-up-photo.jpg HTTP/1.1" 200 127910
+	"GET /todo/static/css/images/image.jpg HTTP/1.1" 304 0
+	"GET /todo/ HTTP/1.1" 200 1228
+	"GET /todo/static/css/style.css HTTP/1.1" 304 0
+	"GET /todo/static/images/start-up-photo.jpg HTTP/1.1" 304 0
+	"GET /todo/static/css/images/image.jpg HTTP/1.1" 304 0
+
+![Screeshot](images/112.png)
+
+### Exercise 1.13: Project v0.7 
