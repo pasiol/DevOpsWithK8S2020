@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: django-to-do-app
-          image: pasiol/django-to-do-app:1.12.1
+          image: pasiol/django-to-do-app:1.12.2
           env:
             - name: DJANGO_ALLOWED_HOSTS
               valueFrom:
